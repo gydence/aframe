@@ -190,16 +190,17 @@ HitTest.updateAnchorPoses = function (frame, refSpace) {
     try {
       // Query most recent pose of the anchor relative to some reference space:
       anchorPose = frame.getPose(anchor.anchorSpace, refSpace);
-    } catch (e) {
-      // This will fail if the anchor has been deleted that frame
-    }
 
-    if (anchorPose) {
-      object3DOptions = HitTest.prototype.anchorToObject3D.get(anchor);
-      if (!object3DOptions) { return; }
-      offset = object3DOptions.offset;
-      object3D = object3DOptions.object3D;
-      applyPose(anchorPose, object3D, offset);
+      if (anchorPose) {
+        object3DOptions = HitTest.prototype.anchorToObject3D.get(anchor);
+        if (!object3DOptions) { return; }
+        offset = object3DOptions.offset;
+        object3D = object3DOptions.object3D;
+
+        applyPose(anchorPose, object3D, offset);
+      }
+    } catch (e) {
+      console.error('while updating anchor poses:', e);
     }
   });
 };
